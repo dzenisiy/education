@@ -1,11 +1,11 @@
-var express = require('express');
-var router = express.Router();
-var debug = require('debug')('nadia:route:admin')
+const express = require('express');
+const router = express.Router();
+const debug = require('debug')('nadia:route:admin') // eslint-disable-line no-unused-vars
 const _ = require('lodash');
 const reservations = require('../lib/reservations');
 
 /* GET admin listing. */
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res, next) { // eslint-disable-line no-unused-vars
   reservations.fetch()
     .then(reservations => {
       res.render('admin', {
