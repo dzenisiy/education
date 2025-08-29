@@ -24,7 +24,7 @@ app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 
 app.use('/', index);
@@ -36,15 +36,15 @@ app.use('/admin', admin);
 app.use('/reservations', reservations);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   const err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
 // error handler
-app.use(function(err, req, res, next) { // eslint-disable-line no-unused-vars
-  // set locals, only providing error in test
+app.use(function (err, req, res, next) { // eslint-disable-line no-unused-vars
+                                         // set locals, only providing error in test
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'test' ? err : {};
 
