@@ -8,7 +8,8 @@ export default defineConfig([
   {
     languageOptions: {
       globals: {
-        ...globals.node
+        ...globals.node,
+        ...globals.jest
       },
       ecmaVersion: 2020,
       sourceType: 'module'
