@@ -29,3 +29,20 @@ describe('validate', () => {
   })
 })
 
+describe('create', () => {
+  it('create should reject if validate fails', async () => {
+    const original = reservations.validate;
+
+    const error = new Error('fail');
+
+    reservations.validate = jest.fn(() => Promise.reject(error));
+
+    await expect(reservations.create())
+      .rejects.toBe(error);
+
+    expect(reservations.validate).toHaveBeenCalledTimes(1);
+
+    reservations.validate = original;
+  });
+})
+
