@@ -1,4 +1,3 @@
-const reservations = require('./reservations');
 const Reservation = require('./schema/reservation');
 
 describe('fetch', () => {
@@ -18,11 +17,39 @@ describe('fetch', () => {
   })
 })
 
+describe('save', () => {
+  let reservations;
+  const mockDebug = jest.fn();
+  const mockInsert = jest.fn().mockResolvedValue([1]);
+
+  beforeAll(() => {
+    jest.mock('debug', () => () => mockDebug);
+    jest.mock('./knex', () => () => ({
+      insert: mockInsert,
+    }));
+    reservations = require('./reservations');
+  });
+
+  afterAll(() => {
+    jest.unmock('debug');
+    jest.unmock('./knex');
+  });
+
+  it('should resolve with the id upon success', async () => {
+    const value = { foo: 'bar' }
+    const expected = [1];
+    const actual = await reservations.save(value);
+    expect(actual).toStrictEqual(expected);
+    expect(mockDebug).toHaveBeenCalledTimes(1);
+    expect(mockInsert).toHaveBeenCalledWith(value);
+  });
+});
+
 describe('validate', () => {
   let reservations;
 
   beforeAll(() => {
-    reservations = require('./reservations');;
+    reservations = require('./reservations');
   })
 
   it('should resolve with no optional fields', async () => {
@@ -56,7 +83,7 @@ describe('create', () => {
   let reservations;
 
   beforeAll(() => {
-    reservations = require('./reservations');;
+    reservations = require('./reservations');
   })
 
   it('create should reject if validate fails', async () => {
