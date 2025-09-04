@@ -37,6 +37,10 @@ npm run debug
 
 This project uses Jest for testing. Visit https://jest.io for details
 
+```bash
+npm test
+```
+
 ## FAQ
 
 - Q: Why didn't you store the time submitted?
