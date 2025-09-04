@@ -36,7 +36,7 @@ describe('save', () => {
   });
 
   it('should resolve with the id upon success', async () => {
-    const value = { foo: 'bar' }
+    const value = {foo: 'bar'}
     const expected = [1];
     const actual = await reservations.save(value);
     expect(actual).toStrictEqual(expected);
@@ -130,5 +130,34 @@ describe('create', () => {
 
     mock.mockRestore();
   })
+
+  it('create should reject if validate fails', async () => {
+    const expectedId = 1;
+
+    const mockInsert = jest.fn().mockResolvedValue(expectedId);
+
+    jest.mock('./knex', () => ({
+        insert: mockInsert,
+      })
+    );
+
+    reservations = require('./reservations');
+
+    const mockValidation = jest.spyOn(reservations, 'validate');
+    mockValidation.mockImplementation(value => Promise.resolve(value));
+
+    const reservation = {foo: 'bar'};
+
+    await expect(reservations.create(reservation))
+      .resolves.toStrictEqual(expectedId);
+
+    expect(reservations.validate).toHaveBeenCalledTimes(1);
+    expect(mockValidation).toHaveBeenCalledWith(reservation);
+    expect(mockValidation).toHaveBeenCalledTimes(1);
+
+    mockValidation.mockRestore();
+    jest.unmock('./knex');
+
+  });
 })
 
