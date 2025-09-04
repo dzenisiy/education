@@ -33,6 +33,10 @@ This project uses https://www.npmjs.com/package/debug for development logging. T
 npm run debug
 ```
 
+### Testing
+
+This project uses Jest for testing. Visit https://jest.io for details
+
 ## FAQ
 
 - Q: Why didn't you store the time submitted?
