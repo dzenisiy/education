@@ -5,7 +5,7 @@ const _ = require('lodash');
 const reservations = require('../lib/reservations');
 
 /* GET admin listing. */
-router.get('/', function(req, res, next) { // eslint-disable-line no-unused-vars
+router.get('/admin', function(req, res, next) { // eslint-disable-line no-unused-vars
   reservations.fetch()
     .then(reservations => {
       res.render('admin', {

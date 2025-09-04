@@ -4,11 +4,11 @@ const debug = require('debug')('nadia:route:reservations')
 const reservations = require('../lib/reservations');
 const Reservation = require('../lib/schema/reservation');
 
-router.get('/', function(req, res, next) { // eslint-disable-line no-unused-vars
+router.get('/reservations', function(req, res, next) { // eslint-disable-line no-unused-vars
   res.render('reservations');
 });
 
-router.post('/', function(req, res, next) { // eslint-disable-line no-unused-vars
+router.post('/reservations', function(req, res, next) { // eslint-disable-line no-unused-vars
   const reservation = new Reservation(req.body);
   reservations.create(reservation)
     .then(reservationId => res.render('reservations', {
