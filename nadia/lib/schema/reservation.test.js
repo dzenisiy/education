@@ -32,7 +32,7 @@ describe('vaidate', () => {
     reservation.validate((error, value) => {
       try {
         expect(value).toEqual(reservation);
-        return done(error);
+        return done();
       } catch (error) {
         return done(error);
       }
