@@ -47,7 +47,8 @@ app.get("/class/:id", (request, response) => {
 //GET
 app.route("/class",)
     .get((request, response) => {
-        response.send("This is a GET request at /class")
+        // response.send("This is a GET request at /class")
+        throw new Error();
     })
     .post((request, response) => {
         response.send("This is a POST request at /class")
@@ -80,4 +81,9 @@ app.delete("/delete", (request, response) => {
 app.listen(PORT, () => {
     console.log(`The server is running on ${PORT}`);
     console.log(data);
+})
+
+app.use((error, request, response, next) => {
+    console.error(error.stack);
+    response.status(500).send("Something goes wrong")
 })
