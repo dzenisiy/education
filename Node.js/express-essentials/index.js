@@ -7,12 +7,22 @@ const PORT = 3000;
 
 //using public folder at the root of the project
 app.use(express.static("public"));
-
+//use images folder for /images route
 app.use("/images", express.static("images"));
+
+//using express.json and express.urlencoded
+// app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
 //GET
 app.get("/", (request, response) => {
     response.json(data);
+})
+
+//POST express.json and express.urlencoded
+app.post("/item", (request, response) => {
+    console.log(request.body);
+    response.send(request.body);
 })
 
 //GET with next()
