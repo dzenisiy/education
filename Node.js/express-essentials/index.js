@@ -33,6 +33,12 @@ app.get("/class/:id", (request, response) => {
     response.send(student);
 });
 
+//GET - redirect method
+app.get("/redirect", (request, response) => {
+    response.redirect("https://www.w3schools.com/");
+})
+
+
 //POST
 app.post("/create", (request, response) => {
     response.send("This is a POST request at /create")
