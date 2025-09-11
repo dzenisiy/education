@@ -15,6 +15,15 @@ app.get("/", (request, response) => {
    response.json(data);
 })
 
+//GET with routing params
+app.get("/class/:id", (request, response) => {
+   const studentId = Number(request.params.id);
+
+   const student = data.filter((student) => student.id === studentId);
+
+   response.send(student);
+});
+
 //POST
 app.post("/create", (request, response) => {
     response.send("This is a POST request at /create")
