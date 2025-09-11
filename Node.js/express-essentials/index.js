@@ -12,16 +12,25 @@ app.use("/images", express.static("images"));
 
 //GET
 app.get("/", (request, response) => {
-   response.json(data);
+    response.json(data);
 })
+
+//GET with next()
+app.get("/next", (request, response, next) => {
+        console.log("The response will be send by the next function");
+        next();
+    }, (requset, response) => {
+        response.send("This is a route with second callback")
+    }
+)
 
 //GET with routing params
 app.get("/class/:id", (request, response) => {
-   const studentId = Number(request.params.id);
+    const studentId = Number(request.params.id);
 
-   const student = data.filter((student) => student.id === studentId);
+    const student = data.filter((student) => student.id === studentId);
 
-   response.send(student);
+    response.send(student);
 });
 
 //POST
@@ -38,7 +47,6 @@ app.put("/edit", (request, response) => {
 app.delete("/delete", (request, response) => {
     response.send("This is a DELETE request at /delete")
 })
-
 
 
 app.listen(PORT, () => {
