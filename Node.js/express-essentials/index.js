@@ -33,6 +33,19 @@ app.get("/class/:id", (request, response) => {
     response.send(student);
 });
 
+//Route chaining
+//GET
+app.route("/class",)
+    .get((request, response) => {
+        response.send("This is a GET request at /class")
+    })
+    .post((request, response) => {
+        response.send("This is a POST request at /class")
+    })
+    .put((request, response) => {
+        response.send("This is a PUT request at /class")
+    })
+
 //GET - redirect method
 app.get("/redirect", (request, response) => {
     response.redirect("https://www.w3schools.com/");
@@ -53,7 +66,6 @@ app.put("/edit", (request, response) => {
 app.delete("/delete", (request, response) => {
     response.send("This is a DELETE request at /delete")
 })
-
 
 app.listen(PORT, () => {
     console.log(`The server is running on ${PORT}`);
