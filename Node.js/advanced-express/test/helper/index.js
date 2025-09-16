@@ -19,6 +19,7 @@ try {
   UserModel = require('../../server/models/UserModel');
 } catch (err) {
   console.log('UserModel ignored');
+  console.log(err);
 }
 
 try {
