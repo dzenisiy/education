@@ -2,11 +2,9 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const UserModel = require('../models/UserModel');
 
-passport.use(new LocalStrategy({
-  userName: 'email',
-}, async (userName, password, done) => {
+passport.use(new LocalStrategy({ usernameField: 'email' }, async (username, password, done) => {
   try {
-    const user = await UserModel.findOne({ email: userName }).exec();
+    const user = await UserModel.findOne({ email: username }).exec();
     if (!user) {
       return done(null, false, { message: 'Invalid username or password' });
     }
@@ -27,8 +25,8 @@ passport.deserializeUser(async (id, done) => {
   try {
     const user = await UserModel.findById(id).exec();
     return done(null, user);
-  } catch (e) {
-    return done(e);
+  } catch (err) {
+    return done(err);
   }
 });
 

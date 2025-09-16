@@ -1,15 +1,15 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const path = require('path');
 const createError = require('http-errors');
 const bodyParser = require('body-parser');
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
-const cookieParser = require('cookie-parser');
 const mongoConfig = require('../server/config')[process.env.NODE_ENV || 'development'];
 const routes = require('./routes');
+const auth = require('./lib/auth');
 const SpeakerService = require('./services/SpeakerService');
 const FeedbackService = require('./services/FeedbackService');
-const auth = require('./lib/auth');
 
 module.exports = (config) => {
   const app = express();
@@ -28,13 +28,14 @@ module.exports = (config) => {
   app.use(cookieParser());
 
   app.use(session({
-    secret: 'some secret',
+    secret: 'very secret 12345',
     resave: true,
     saveUninitialized: false,
     store: new MongoStore({
       mongoUrl: mongoConfig.database.dsn,
     }),
   }));
+
   app.use(auth.initialize);
   app.use(auth.session);
   app.use(auth.setUser);
