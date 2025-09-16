@@ -2,6 +2,10 @@ const express = require('express');
 const path = require('path');
 const createError = require('http-errors');
 const bodyParser = require('body-parser');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
+const cookieParser = require('cookie-parser');
+const mongoConfig = require('../server/config')[process.env.NODE_ENV || 'development'];
 const routes = require('./routes');
 const SpeakerService = require('./services/SpeakerService');
 const FeedbackService = require('./services/FeedbackService');
@@ -20,6 +24,15 @@ module.exports = (config) => {
   app.get('/favicon.ico', (req, res) => res.sendStatus(204));
 
   app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(cookieParser());
+  app.use(session({
+    secret: 'some secret',
+    resave: true,
+    saveUninitialized: false,
+    store: new MongoStore({
+      mongoUrl: mongoConfig.database.dsn,
+    }),
+  }));
 
   app.use(async (req, res, next) => {
     try {
