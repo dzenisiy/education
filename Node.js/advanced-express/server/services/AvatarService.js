@@ -35,6 +35,12 @@ class AvatarService {
   filepath(filename) {
     return path.resolve(`${this.directory}/${filename}`);
   }
+
+  async thumbnail(filename) {
+    return sharp(this.filepath(filename))
+      .resize(50, 50)
+      .toBuffer();
+  }
 }
 
 module.exports = AvatarService;
