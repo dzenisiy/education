@@ -20,6 +20,18 @@ passport.use(new LocalStrategy({
   }
 }));
 
+// eslint-disable-next-line no-underscore-dangle
+passport.serializeUser((user, done) => done(null, user._id));
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await UserModel.findById(id).exec();
+    return done(null, user);
+  } catch (e) {
+    return done(e);
+  }
+});
+
 module.exports = {
   initialize: passport.initialize(),
   session: passport.session(),
