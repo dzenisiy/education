@@ -11,7 +11,7 @@ block content
   
         .panel.panel-default
           .panel-body
-            form(method="POST", action="/users/login")
+            form(method="POST", action="/users/login", enctype="multipart/form-data")
               .form-group
                 label(for='inputEmail') Email address
                 input#inputEmail.form-control(type='email', name='email', placeholder='Enter email', required)
