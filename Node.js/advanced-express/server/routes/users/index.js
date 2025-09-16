@@ -18,9 +18,11 @@ module.exports = (params) => {
   }));
   router.get('/login', redirectIfLoggedIn, (req, res) => res.render('users/login', { error: req.query.error }));
 
-  router.get('/logout', (req, res) => {
-    req.logout();
-    return res.redirect('/');
+  router.get('/logout', (req, res, next) => {
+    req.logout((err) => {
+      if (err) { return next(err); }
+      return res.redirect('/');
+    });
   });
 
   router.get('/registration', redirectIfLoggedIn, (req, res) => res.render('users/registration', { success: req.query.success }));
