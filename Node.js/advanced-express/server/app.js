@@ -9,6 +9,7 @@ const mongoConfig = require('../server/config')[process.env.NODE_ENV || 'develop
 const routes = require('./routes');
 const SpeakerService = require('./services/SpeakerService');
 const FeedbackService = require('./services/FeedbackService');
+const auth = require('./lib/auth');
 
 module.exports = (config) => {
   const app = express();
@@ -25,6 +26,7 @@ module.exports = (config) => {
 
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(cookieParser());
+
   app.use(session({
     secret: 'some secret',
     resave: true,
@@ -33,6 +35,9 @@ module.exports = (config) => {
       mongoUrl: mongoConfig.database.dsn,
     }),
   }));
+  app.use(auth.initialize);
+  app.use(auth.session);
+  app.use(auth.setUser);
 
   app.use(async (req, res, next) => {
     try {
