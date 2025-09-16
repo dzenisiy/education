@@ -11,9 +11,13 @@ const auth = require('./lib/auth');
 const SpeakerService = require('./services/SpeakerService');
 const FeedbackService = require('./services/FeedbackService');
 const AvatarService = require('./services/AvatarService');
+const compression = require('compression');
+const helmet = require('helmet');
 
 module.exports = (config) => {
   const app = express();
+  app.use(compression());
+  app.use(helmet());
   const speakers = new SpeakerService(config.data.speakers);
   const feedback = new FeedbackService(config.data.feedback);
   const avatars = new AvatarService(config.data.avatars);
