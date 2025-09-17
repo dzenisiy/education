@@ -1,6 +1,8 @@
 const https = require('https');
 const fs = require('fs');
 
+const url = "https://www.w3schools.com/js/default.asp"
+
 const options = {
   hostname: "www.w3schools.com",
   port: 443,
@@ -8,20 +10,12 @@ const options = {
   method: "GET"
 };
 
-const request = https.request(options, (res) => {
-  let responseBody = "";
-  res.setEncoding("UTF-8");
-  res.on("data", chunk => {
-    console.log("---chunk", chunk.length);
-    responseBody += chunk;
-  });
+const request = https.get(url, (res) => {
+  let download = fs.createWriteStream("js.html");
+  console.log("response started");
+  res.pipe(download);
   res.on("end", () => {
-    fs.writeFile("js.html", responseBody, err => {
-      if (err) {
-        throw err;
-      }
-      console.log("donwloaded")
-    })
+    console.log("Response Finished");
   })
 });
 
