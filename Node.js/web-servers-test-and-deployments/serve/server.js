@@ -5,13 +5,15 @@ import fs from "fs";
 
 const app = express();
 
+let definitions = skiTerms;
+
 app.use("/", express.static("./client"));
 app.get("/dictionary", (req, res) => {
-  res.json(skiTerms);
+  res.json(definitions);
 });
 
 app.post("/dictionary", bodyParser.json(), (req, res) => {
-  skiTerms.push(req.body);
+  definitions.push(req.body);
   save();
   res.json({
     status: "success",
@@ -20,11 +22,21 @@ app.post("/dictionary", bodyParser.json(), (req, res) => {
 });
 
 const save = () => {
-  fs.writeFile("./ski-terms.json", JSON.stringify(skiTerms, null, 2), err => {
+  fs.writeFile("./ski-terms.json", JSON.stringify(definitions, null, 2), err => {
     if (err) {
       throw err;
     }
   });
 }
+
+app.delete("/dictionary/:term", (req, res) => {
+  definitions = definitions.filter(({term}) => term !== req.params.term);
+  save();
+  res.json({
+    status: "success",
+    removed: req.params.term,
+    newLength: definitions.length,
+  })
+})
 
 app.listen(3000, () => console.log("ski dictionary running on 3000"));
